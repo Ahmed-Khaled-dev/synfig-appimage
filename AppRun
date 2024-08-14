@@ -1,0 +1,22 @@
+#!/bin/sh
+
+USR_PATH="$(dirname "$(readlink -f "${0}")")/usr"
+
+export USER_CONFIG_DIR="${HOME}/.config/synfig"
+
+export LD_LIBRARY_PATH="${USR_PATH}/lib:${USR_PATH}/lib64:$LD_LIBRARY_PATH"
+export XDG_DATA_DIRS="${USR_PATH}/share:/usr/share:/usr/local/share/:$XDG_DATA_DIRS"
+export XDG_CONFIG_DIRS="${HOME}/.config/synfig:$XDG_CONFIG_DIRS"
+export XCURSOR_PATH="${USR_PATH}/share/icons:/usr/share/icons:/usr/local/share/icons:$XCURSOR_PATH"
+export GSETTINGS_SCHEMA_DIR="${USR_PATH}/share/glib-2.0/schemas/"
+export QT_XKB_CONFIG_ROOT="/usr/local/share/X11/xkb:/usr/share/X11/xkb:$QT_XKB_CONFIG_ROOT"
+export FONTCONFIG_PATH="${USR_PATH}/etc/fonts"
+
+export SYNFIG_ROOT="${USR_PATH}"
+export SYNFIG_GTK_THEME="Adwaita"
+export SYNFIG_MODULE_LIST="${USR_PATH}/etc/synfig_modules.cfg"
+export MLT_DATA="${USR_PATH}/share/mlt/"
+export MLT_REPOSITORY="${USR_PATH}/lib/mlt/"
+
+EXEC="${USR_PATH}/bin/synfigstudio"
+exec "${EXEC}"
