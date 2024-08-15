@@ -47,17 +47,17 @@ $ git clone https://github.com/Ahmed-Khaled-dev/synfig-appimage.git
 
 ### 3. Copy the _production/build directory inside synfig-appimage/
 
-Note, only copy the ``build`` directory, don't copy the directory _production
+Note, only copy the ``build`` directory, don't copy the directory ``_production``
 
 ### 4. Run the Script
 
-Move inside synfig-appimage and run the below
+Move inside ``synfig-appimage`` and run the below
 ```
 $ chmod +x generate-synfig-appimage.sh
 $ ./generate-synfig-appimage.sh
 ```
 
-After it finishes you should find a file called **Synfig_Studio-x86_64.AppImage** inside the synfig-appimage directory
+After it finishes you should find a file called **Synfig_Studio-x86_64.AppImage** inside the ``synfig-appimage`` directory
 
 if yes, then Hooray you have generated a Synfig AppImage! 🎉
 
