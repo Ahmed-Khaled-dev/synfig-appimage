@@ -28,6 +28,9 @@ chmod +x linuxdeploy.AppImage
 rm -f ${SYNFIG_APPDIR_NAME}/AppRun
 cp AppRun ${SYNFIG_APPDIR_NAME}
 
+# Make sure rsync is installed on Debian (Since Debian 10 is what's currently used for packaging Synfig in an AppImage)
+sudo apt install rsync
+
 # Copy Synfig's share/ directory into the AppDir while excluding copying specific files that are not needed
 rsync -av --exclude="mime-info/synfigstudio.keys" ${SYNFIG_BUILD_PATH}/share ${SYNFIG_APPDIR_NAME}/usr/
 # -a stands for archive, which preserves permissions and everything related to the copied files
