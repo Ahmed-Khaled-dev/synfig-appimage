@@ -2,13 +2,27 @@
 
 SYNFIG_BUILD_PATH="./build"
 SYNFIG_APPDIR_NAME="Synfig.AppDir"
+ARCH=$(uname -m)
+
+if [ "$ARCH" == "x86_64" ]; then
+    # 64-bit architecture
+    LINUXDEPLOY_URL="https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage"
+    APPIMAGETOOL_URL="https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+elif [ "$ARCH" == "i686" ] || [ "$ARCH" == "i386" ]; then
+    # 32-bit architecture
+    LINUXDEPLOY_URL="https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-i386.AppImage"
+    APPIMAGETOOL_URL="https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-i686.AppImage"
+else
+    echo "Unsupported architecture: $ARCH"
+    exit 1
+fi
 
 # Install the latest release of linuxdeploy
-wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
-chmod +x linuxdeploy-x86_64.AppImage
+wget $LINUXDEPLOY_URL -O linuxdeploy.AppImage
+chmod +x linuxdeploy.AppImage
 
 # Use linuxdeploy to generate the basic AppDir structure and detect and generate in Synfig.AppDir/usr/lib/ the shared libraries that Synfig needs
-./linuxdeploy-x86_64.AppImage --appdir ${SYNFIG_APPDIR_NAME} --executable ${SYNFIG_BUILD_PATH}/bin/synfigstudio --desktop-file ${SYNFIG_BUILD_PATH}/share/applications/org.synfig.SynfigStudio.desktop --icon-file ${SYNFIG_BUILD_PATH}/share/icons/hicolor/scalable/apps/org.synfig.SynfigStudio.svg
+./linuxdeploy.AppImage --appdir ${SYNFIG_APPDIR_NAME} --executable ${SYNFIG_BUILD_PATH}/bin/synfigstudio --desktop-file ${SYNFIG_BUILD_PATH}/share/applications/org.synfig.SynfigStudio.desktop --icon-file ${SYNFIG_BUILD_PATH}/share/icons/hicolor/scalable/apps/org.synfig.SynfigStudio.svg
 
 # Remove the linuxdeploy automatically generated AppRun file and replace it with Synfig's custom AppRun
 rm -f ${SYNFIG_APPDIR_NAME}/AppRun
@@ -26,9 +40,8 @@ cp -rf ${SYNFIG_BUILD_PATH}/etc ${SYNFIG_APPDIR_NAME}/usr/
 rsync -av --exclude='*.la' --exclude='*.pc' --prune-empty-dirs ${SYNFIG_BUILD_PATH}/lib/ ${SYNFIG_APPDIR_NAME}/usr/lib/
 
 # Install the latest release of the appimagetool
-wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
-chmod +x appimagetool-x86_64.AppImage
+wget $APPIMAGETOOL_URL -O appimagetool.AppImage
+chmod +x appimagetool.AppImage
 
-# Use the appimagetool to generate Synfig's x86_64 AppImage using the AppDir we have constructed
-ARCH="x86_64"
-./appimagetool-x86_64.AppImage ${SYNFIG_APPDIR_NAME}
+# Use the appimagetool to generate Synfig's AppImage using the AppDir we have constructed
+./appimagetool.AppImage ${SYNFIG_APPDIR_NAME}
