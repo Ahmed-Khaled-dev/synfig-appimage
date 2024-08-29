@@ -11,47 +11,32 @@
 
 # How To Use
 
-### 1. Build Synfig on Linux
-
-Follow the below steps
-
 > [!IMPORTANT]
-> For the below, you'll need <a href="https://git-scm.com/" target="_blank">Git</a> installed and all the packages on your system upgraded to the latest versions
+> For the below, you'll need to be on a 64-bit Linux, have <a href="https://git-scm.com/" target="_blank">Git</a> installed, and all the packages on your system upgraded to the latest versions
 
-Clone Synfig's Repository
+### 1. Clone this Repo
 ```
-$ git clone https://github.com/synfig/synfig.git
-```
-
-Download Synfig's Dependencies, while you are inside the Synfig repo that you just cloned, run:
-```
-$ ./1-setup-linux-native.sh
+$ git clone https://github.com/Ahmed-Khaled-dev/synfig-appimage.git
 ```
 
-After the above has finished, build Synfig for Production by running:
+### 2. Build Synfig on Linux
+
+Move inside ``synfig-appimage`` and run the below
 ```
-$ ./2-build-production.sh
+$ chmod +x build-synfig.sh
+$ ./build-synfig.sh
 ```
 
 > [!TIP]
 > This will take a bit of time
 
-After it is finished you should have the following folder inside the Synfig repository ``_production/build``
+After it is finished you should have a directory called ``build`` inside ``synfig-appimage``
 
 If yes, then Hooray you have built Synfig! 🎉
 
-### 2. Clone this Repo
-```
-$ git clone https://github.com/Ahmed-Khaled-dev/synfig-appimage.git
-```
+### 3. Generate Synfig's AppImage
 
-### 3. Copy the _production/build directory inside synfig-appimage/
-
-Note, only copy the ``build`` directory, don't copy the directory ``_production``
-
-### 4. Run the Script
-
-Move inside ``synfig-appimage`` and run the below
+While inside ``synfig-appimage`` run the below
 ```
 $ chmod +x generate-synfig-appimage.sh
 $ ./generate-synfig-appimage.sh
