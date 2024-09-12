@@ -2,6 +2,13 @@
 
 USR_PATH="$(dirname "$(readlink -f "${0}")")/usr"
 
+# Added this to fix the following bug, the below 2 lines were the output that I got before setting GDK_BACKEND to x11
+# Using the 'memory' GSettings backend.  Your settings will not be saved or shared with other applications.
+# Settings schema 'org.gnome.settings-daemon.plugins.xsettings' does not contain a key named 'antialiasing'
+# Seems like the antialiasing setting is deprecated in Wayland, so I have to switch to x11 for it to work
+# Solved by checking the following GitHub Issue: https://github.com/Ultimaker/Cura/issues/12776
+export GDK_BACKEND=x11
+
 export USER_CONFIG_DIR="${HOME}/.config/synfig"
 
 export LD_LIBRARY_PATH="${USR_PATH}/lib:${USR_PATH}/lib64:$LD_LIBRARY_PATH"
