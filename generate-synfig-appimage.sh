@@ -17,12 +17,14 @@ else
     exit 1
 fi
 
-# Install the latest release of linuxdeploy
+# Install the latest release of linuxdeploy and the linuxdeploy gtk plugin
 wget $LINUXDEPLOY_URL -O linuxdeploy.AppImage
-chmod +x linuxdeploy.AppImage
+wget "https://raw.githubusercontent.com/linuxdeploy/linuxdeploy-plugin-gtk/master/linuxdeploy-plugin-gtk.sh"
+chmod +x linuxdeploy.AppImage linuxdeploy-plugin-gtk.sh
 
-# Use linuxdeploy to generate the basic AppDir structure and detect and generate in Synfig.AppDir/usr/lib/ the shared libraries that Synfig needs
-./linuxdeploy.AppImage --appdir ${SYNFIG_APPDIR_NAME} --executable ${SYNFIG_BUILD_PATH}/bin/synfigstudio --desktop-file ${SYNFIG_BUILD_PATH}/share/applications/org.synfig.SynfigStudio.desktop --icon-file ${SYNFIG_BUILD_PATH}/share/icons/hicolor/scalable/apps/org.synfig.SynfigStudio.svg
+# Use linuxdeploy to generate the basic AppDir structure, bundle in Synfig.AppDir/usr/lib/ 
+# the shared libraries that Synfig needs, and bundle additional resources that GTK needs using the linuxdeploy gtk plugin
+./linuxdeploy.AppImage --appdir ${SYNFIG_APPDIR_NAME} --plugin gtk --executable ${SYNFIG_BUILD_PATH}/bin/synfigstudio --desktop-file ${SYNFIG_BUILD_PATH}/share/applications/org.synfig.SynfigStudio.desktop --icon-file ${SYNFIG_BUILD_PATH}/share/icons/hicolor/scalable/apps/org.synfig.SynfigStudio.svg
 
 # Remove the linuxdeploy automatically generated AppRun file and replace it with Synfig's custom AppRun
 rm -f ${SYNFIG_APPDIR_NAME}/AppRun

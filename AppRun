@@ -1,29 +1,27 @@
 #!/bin/sh
 
-USR_PATH="$(dirname "$(readlink -f "${0}")")/usr"
-
-# Added this to fix the following bug, the below 2 lines were the output that I got before setting GDK_BACKEND to x11
-# Using the 'memory' GSettings backend.  Your settings will not be saved or shared with other applications.
-# Settings schema 'org.gnome.settings-daemon.plugins.xsettings' does not contain a key named 'antialiasing'
-# Seems like the antialiasing setting is deprecated in Wayland, so I have to switch to x11 for it to work
-# Solved by checking the following GitHub Issue: https://github.com/Ultimaker/Cura/issues/12776
-export GDK_BACKEND=x11
+APPIMAGE_PATH=$(dirname "$(readlink -f "${0}")")
+APPIMAGE_USR_PATH="${APPIMAGE_PATH}/usr"
 
 export USER_CONFIG_DIR="${HOME}/.config/synfig"
 
-export LD_LIBRARY_PATH="${USR_PATH}/lib:${USR_PATH}/lib64:$LD_LIBRARY_PATH"
-export XDG_DATA_DIRS="${USR_PATH}/share:/usr/share:/usr/local/share/:$XDG_DATA_DIRS"
+export LD_LIBRARY_PATH="${APPIMAGE_USR_PATH}/lib:$LD_LIBRARY_PATH"
+export XDG_DATA_DIRS="${APPIMAGE_USR_PATH}/share:/usr/share:/usr/local/share/:$XDG_DATA_DIRS"
 export XDG_CONFIG_DIRS="${HOME}/.config/synfig:$XDG_CONFIG_DIRS"
-export XCURSOR_PATH="${USR_PATH}/share/icons:/usr/share/icons:/usr/local/share/icons:$XCURSOR_PATH"
-export GSETTINGS_SCHEMA_DIR="${USR_PATH}/share/glib-2.0/schemas/"
+export XCURSOR_PATH="${APPIMAGE_USR_PATH}/share/icons:/usr/share/icons:/usr/local/share/icons:$XCURSOR_PATH"
 export QT_XKB_CONFIG_ROOT="/usr/local/share/X11/xkb:/usr/share/X11/xkb:$QT_XKB_CONFIG_ROOT"
-export FONTCONFIG_PATH="${USR_PATH}/etc/fonts"
+export FONTCONFIG_PATH="${APPIMAGE_USR_PATH}/etc/fonts"
 
-export SYNFIG_ROOT="${USR_PATH}"
+export SYNFIG_ROOT="${APPIMAGE_USR_PATH}"
 export SYNFIG_GTK_THEME="Adwaita"
-export SYNFIG_MODULE_LIST="${USR_PATH}/etc/synfig_modules.cfg"
-export MLT_DATA="${USR_PATH}/share/mlt/"
-export MLT_REPOSITORY="${USR_PATH}/lib/mlt/"
+export SYNFIG_MODULE_LIST="${APPIMAGE_USR_PATH}/etc/synfig_modules.cfg"
+export MLT_DATA="${APPIMAGE_USR_PATH}/share/mlt/"
+export MLT_REPOSITORY="${APPIMAGE_USR_PATH}/lib/mlt/"
 
-EXEC="${USR_PATH}/bin/synfigstudio"
+# Run the script that the linuxdeploy gtk plugin generated which sets very important environment variables
+# realted to gtk that makes the AppImage work on distributions other than the one the AppImage was created on
+# "source" runs the script in the current shell which makes the changed environment variables take effect on the AppImage
+source "${APPIMAGE_PATH}/apprun-hooks/linuxdeploy-plugin-gtk.sh"
+
+EXEC="${APPIMAGE_USR_PATH}/bin/synfigstudio"
 exec "${EXEC}"
