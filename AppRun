@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 APPIMAGE_PATH=$(dirname "$(readlink -f "${0}")")
 APPIMAGE_USR_PATH="${APPIMAGE_PATH}/usr"
