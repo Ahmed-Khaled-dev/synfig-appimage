@@ -44,6 +44,9 @@ cp -rf ${SYNFIG_BUILD_PATH}/etc ${SYNFIG_APPDIR_NAME}/usr/
 # Copy Synfig's extra shared libraries into the AppDir while excluding the unneeded *.la and *.pc files and not copying empty directories
 rsync -av --exclude='*.la' --exclude='*.pc' --prune-empty-dirs ${SYNFIG_BUILD_PATH}/lib/ ${SYNFIG_APPDIR_NAME}/usr/lib/
 
+# Copy pk-gtk-module into the AppDir, this fixes the error "Failed to load module pk-gtk-module" on Fedora 40
+cp libpk-gtk-module.so ${SYNFIG_APPDIR_NAME}/usr/lib/gtk-3.0/modules/
+
 # Install the latest release of the appimagetool
 wget $APPIMAGETOOL_URL -O appimagetool.AppImage
 chmod +x appimagetool.AppImage

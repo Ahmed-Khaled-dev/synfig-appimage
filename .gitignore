@@ -1,0 +1,5 @@
+*.AppImage
+/build
+/synfig
+Synfig.AppDir
+linuxdeploy-plugin-gtk.sh
